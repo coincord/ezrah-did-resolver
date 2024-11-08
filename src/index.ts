@@ -13,7 +13,7 @@ import {
   MetaSignature,
 } from './helpers.js'
 
-import { EthereumDIDRegistry } from './config/EthereumDIDRegistry.js'
+import { EzrahDIDRegistry } from './config/EzrahDIDRegistry.js'
 import { deployments, EthrDidRegistryDeployment } from './config/deployments.js'
 
 export {
@@ -30,7 +30,7 @@ export {
   identifierMatcher,
   interpretIdentifier,
   Errors,
-  EthereumDIDRegistry,
+  EzrahDIDRegistry,
   MetaSignature,
   deployments,
   EthrDidRegistryDeployment,
@@ -51,6 +51,6 @@ export default {
   identifierMatcher,
   interpretIdentifier,
   Errors,
-  EthereumDIDRegistry,
+  EzrahDIDRegistry,
   deployments,
 }
