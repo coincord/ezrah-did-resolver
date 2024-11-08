@@ -1,7 +1,7 @@
 import { Contract, ContractFactory, JsonRpcProvider, Provider } from 'ethers'
 import { DEFAULT_REGISTRY_ADDRESS } from './helpers.js'
 import { deployments, EthrDidRegistryDeployment } from './config/deployments.js'
-import { EthereumDIDRegistry } from './config/EthereumDIDRegistry.js'
+import { EzrahDIDRegistry } from './config/EzrahDIDRegistry.js'
 
 const infuraNames: Record<string, string> = {
   polygon: 'matic',
@@ -71,7 +71,7 @@ export function getContractForNetwork(conf: ProviderConfiguration): Contract {
       throw new Error(`invalid_config: No web3 provider could be determined for network ${conf.name || conf.chainId}`)
     }
   }
-  const contract = ContractFactory.fromSolidity(EthereumDIDRegistry)
+  const contract = ContractFactory.fromSolidity(EzrahDIDRegistry)
     .attach(conf.registry || DEFAULT_REGISTRY_ADDRESS)
     .connect(provider)
   return contract as Contract
