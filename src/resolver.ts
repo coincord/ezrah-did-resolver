@@ -29,10 +29,10 @@ import {
 import { logDecoder } from './logParser.js'
 
 export function getResolver(options: ConfigurationOptions): Record<string, DIDResolver> {
-  return new EthrDidResolver(options).build()
+  return new EzrahDidResolver(options).build()
 }
 
-export class EthrDidResolver {
+export class EzrahDidResolver {
   private contracts: ConfiguredNetworks
 
   constructor(options: ConfigurationOptions) {

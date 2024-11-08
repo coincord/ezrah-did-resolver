@@ -31,7 +31,7 @@ import {
 /**
  * A class that can be used to interact with the ERC1056 contract on behalf of a local controller key-pair
  */
-export class EthrDidController {
+export class EzrahDidController {
   private contract: Contract
   private readonly signer?: Signer
   private readonly address: string
@@ -39,9 +39,9 @@ export class EthrDidController {
   private readonly legacyNonce: boolean
 
   /**
-   * Creates an EthrDidController instance.
+   * Creates an EzrahDidController instance.
    *
-   * @param identifier - required - a `did:ethr` string or a publicKeyHex or an ethereum address
+   * @param identifier - required - a `did:ezrah` string or a publicKeyHex or an ethereum address
    * @param signer - optional - a Signer that represents the current controller key (owner) of the identifier. If a
    *   'signer' is not provided, then a 'contract' with an attached signer can be used.
    * @param contract - optional - a Contract instance representing a ERC1056 contract. At least one of `contract`,
@@ -53,7 +53,7 @@ export class EthrDidController {
    * @param registry - optional - The ERC1056 registry address. Defaults to
    *   '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b'. Only used with 'provider' or 'rpcUrl'
    * @param legacyNonce - optional - If the legacy nonce tracking method should be accounted for. If lesser version of
-   *   did-ethr-registry contract v1.0.0 is used then this should be true.
+   *   did-ezrah-registry contract v1.0.0 is used then this should be true.
    */
   constructor(
     identifier: string | address,
@@ -81,10 +81,11 @@ export class EthrDidController {
     this.signer = signer
     this.address = address
     let networkString = net ? `${net}:` : ''
-    if (networkString in ['mainnet:', '0x1:']) {
+    if (networkString in ['0x1:', '137']) {
       networkString = ''
     }
-    this.did = publicKey ? `did:ethr:${networkString}${publicKey}` : `did:ethr:${networkString}${address}`
+
+    this.did = publicKey ? `did:ezrah:${networkString}${publicKey}` : `did:ezrah:${networkString}${address}`
   }
 
   /**

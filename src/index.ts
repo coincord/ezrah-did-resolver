@@ -1,5 +1,5 @@
 import { getResolver } from './resolver.js'
-import { EthrDidController } from './controller.js'
+import { EzrahDidController } from './controller.js'
 import {
   bytes32toString,
   DEFAULT_REGISTRY_ADDRESS,
@@ -21,7 +21,7 @@ export {
   getResolver,
   bytes32toString,
   stringToBytes32,
-  EthrDidController,
+  EzrahDidController,
   /**@deprecated */
   legacyAlgoMap as delegateTypes,
   /**@deprecated */
@@ -46,7 +46,7 @@ export default {
   getResolver,
   bytes32toString,
   stringToBytes32,
-  EthrDidController,
+  EzrahDidController,
   verificationMethodTypes,
   identifierMatcher,
   interpretIdentifier,
