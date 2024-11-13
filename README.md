@@ -1,10 +1,6 @@
-[![npm](https://img.shields.io/npm/dt/ethr-did-resolver.svg)](https://www.npmjs.com/package/ethr-did-resolver)
-[![npm](https://img.shields.io/npm/v/ethr-did-resolver.svg)](https://www.npmjs.com/package/ethr-did-resolver)
-[![codecov](https://codecov.io/gh/decentralized-identity/ethr-did-resolver/branch/develop/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/ethr-did-resolver)
+# Ezrah DID Resolver
 
-# ethr DID Resolver
-
-This library is intended to use ethereum addresses or secp256k1 publicKeys as fully self-managed
+This library is intended to use ethereum (evm) addresses or secp256k1 publicKeys as fully self-managed
 [Decentralized Identifiers](https://w3c.github.io/did-core/#identifier) and wrap them in a
 [DID Document](https://w3c.github.io/did-core/#did-document-properties)
 
@@ -17,16 +13,16 @@ This DID method relies on the [ethr-did-registry](https://github.com/uport-proje
 
 ## DID method
 
-To encode a DID for an Ethereum address on the ethereum mainnet, simply prepend `did:ethr:`
+To encode a DID for an Ethereum address on the ethereum mainnet, simply prepend `did:ezrah:`
 
 eg:
 
-`did:ethr:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74`
+`did:ezrah:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74`
 
 Multi-network DIDs are also supported, if the proper configuration is provided during setup.
 
 For example:
-`did:ethr:0x5:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74` gets resolved on the goerli testnet (chainID=0x5), and
+`did:ezrah:sepolia:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74` gets resolved on the goerli testnet (chainID=0x5), and
 represents a distinct identifier than the generic one, with different DID documents and different key rotation history.
 
 ## DID Document
@@ -40,25 +36,18 @@ the registry looks like this:
 
 ```json
 {
-  "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
-  ],
-  "id": "did:ethr:0xb9c5714089478a327f09197987f16f9e5d936e8a",
+  "@context": ["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/secp256k1recovery-2020/v2"],
+  "id": "did:ezrah:0xb9c5714089478a327f09197987f16f9e5d936e8a",
   "verificationMethod": [
     {
-      "id": "did:ethr:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller",
+      "id": "did:ezrah:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller",
       "type": "EcdsaSecp256k1RecoveryMethod2020",
-      "controller": "did:ethr:0xb9c5714089478a327f09197987f16f9e5d936e8a",
+      "controller": "did:ezrah:0xb9c5714089478a327f09197987f16f9e5d936e8a",
       "blockchainAccountId": "eip155:1:0xb9c5714089478a327f09197987f16f9e5d936e8a"
     }
   ],
-  "authentication": [
-    "did:ethr:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller"
-  ],
-  "assertionMethod": [
-    "did:ethr:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller"
-  ]
+  "authentication": ["did:ezrah:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller"],
+  "assertionMethod": ["did:ezrah:0xb9c5714089478a327f09197987f16f9e5d936e8a#controller"]
 }
 ```
 
@@ -71,7 +60,7 @@ type `EcdsaSecp256k1RecoveryMethod2020` and an `blockchainAccountId` attribute c
 ## Building a DID document
 
 The DID document is not stored as a file, but is built by using read only functions and contract events on
-the [ethr-did-registry](https://github.com/uport-project/ethr-did-registry) Ethereum smart contract.
+the ezrah-registry-did smart contract.
 
 Please see the [spec](doc/did-method-spec.md) for details of how the DID document and corresponding metadata are
 computed.
@@ -89,11 +78,11 @@ import { Resolver } from 'did-resolver'
 import { getResolver } from 'ethr-did-resolver'
 
 const providerConfig = {
-// While experimenting, you can set a rpc endpoint to be used by the web3 provider
-  rpcUrl: 'http://localhost:7545', 
-// You can also set the address for your own ethr-did-registry (ERC1056) contract
+  // While experimenting, you can set a rpc endpoint to be used by the web3 provider
+  rpcUrl: 'http://localhost:7545',
+  // You can also set the address for your own ethr-did-registry (ERC1056) contract
   registry: registry.address,
-  name: 'development' // this becomes did:ethr:development:0x...
+  name: 'development', // this becomes did:ezrah:development:0x...
 }
 // It's recommended to use the multi-network configuration when using this in production
 // since that allows you to resolve on multiple public and private networks at the same time.
@@ -103,7 +92,7 @@ const ethrDidResolver = getResolver(providerConfig)
 const didResolver = new Resolver(ethrDidResolver)
 
 didResolver
-  .resolve('did:ethr:development:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74')
+  .resolve('did:ezrah:dev:0xf3beac30c498d9e26865f34fcaa57dbb935b0d74')
   .then((result) => console.dir(result, { depth: 3 }))
 ```
 
@@ -116,27 +105,24 @@ network. An example configuration for multi-network DID resolving would look lik
 ```javascript
 const providerConfig = {
   networks: [
-    { name: "mainnet", provider: web3.currentProvider },
-    { name: "0x5", rpcUrl: "https://goerli.infura.io/v3/<YOUR PROJECT ID>" },
-    { name: "rsk:testnet", chainId: "0x1f", rpcUrl: "https://did.testnet.rsk.co:4444" },
-    { name: "development", rpcUrl: "http://localhost:7545", registry: "0xdca7ef03e98e0dc2b855be647c39abe984fcf21b" },
-    { name: "myprivatenet", chainId: 123456, rpcUrl: "https://my.private.net.json.rpc.url" }
-  ]
+    { name: 'mainnet', provider: web3.currentProvider },
+    { name: '0x5', rpcUrl: 'https://goerli.infura.io/v3/<YOUR PROJECT ID>' },
+    { name: 'rsk:testnet', chainId: '0x1f', rpcUrl: 'https://did.testnet.rsk.co:4444' },
+    { name: 'development', rpcUrl: 'http://localhost:7545', registry: '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b' },
+    { name: 'myprivatenet', chainId: 123456, rpcUrl: 'https://my.private.net.json.rpc.url' },
+  ],
 }
 
-const ethrDidResolver = getResolver(providerConfig)
+const ezrahDidResolver = getResolver(providerConfig)
 ```
 
-The configuration from above allows you to resolve ethr-did's of the following formats:
+The configuration from above allows you to resolve ezrah-did's of the following formats:
 
-- `did:ethr:mainnet:0xabcabc03e98e0dc2b855be647c39abe984193675`
-- `did:ethr:0xabcabc03e98e0dc2b855be647c39abe984193675` (defaults to mainnet configuration)
-- `did:ethr:0x5:0xabcabc03e98e0dc2b855be647c39abe984193675` (refer to the goerli network by chainID)
-- `did:ethr:rsk:testnet:0xabcabc03e98e0dc2b855be647c39abe984193675`
-- `did:ethr:0x1f:0xabcabc03e98e0dc2b855be647c39abe984193675` (refer to the rsk:testnet by chainID)
-- `did:ethr:development:0xabcabc03e98e0dc2b855be647c39abe984193675`
-- `did:ethr:myprivatenet:0xabcabc03e98e0dc2b855be647c39abe984193675`
-- `did:ethr:0x1e240:0xabcabc03e98e0dc2b855be647c39abe984193675` (refer to `myprivatenet` by chainID)
+- `did:ezrah:mainnet:0xabcabc03e98e0dc2b855be647c39abe984193675`
+- `did:ezrah:0xabcabc03e98e0dc2b855be647c39abe984193675` (defaults to mainnet configuration)
+- `did:ezrah:0x5:0xabcabc03e98e0dc2b855be647c39abe984193675` (refer to the goerli network by chainID)
+- `did:ezrah:myprivatenet:0xabcabc03e98e0dc2b855be647c39abe984193675`
+- `did:ezrah:0x1e240:0xabcabc03e98e0dc2b855be647c39abe984193675` (refer to `myprivatenet` by chainID)
 
 For each network you can specify either an `rpcUrl`, a `provider` or a `web3` instance that can be used to access that
 particular network. At least one of `name` or `chainId` must be specified per network.
