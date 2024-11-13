@@ -81,11 +81,15 @@ export class EzrahDidController {
     this.signer = signer
     this.address = address
     let networkString = net ? `${net}:` : ''
-    if (networkString in ['0x1:', '137']) {
+    if (networkString in ['mainnet:', '0x1:', '137']) {
       networkString = ''
     }
 
+    if (networkString == 'mainnet:') networkString = ''
+
     this.did = publicKey ? `did:ezrah:${networkString}${publicKey}` : `did:ezrah:${networkString}${address}`
+
+    // TODO: Remove Later
   }
 
   /**

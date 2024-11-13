@@ -14,7 +14,7 @@ import {
 } from './helpers.js'
 
 import { EzrahDIDRegistry } from './config/EzrahDIDRegistry.js'
-import { deployments, EthrDidRegistryDeployment } from './config/deployments.js'
+import { deployments, EzrahDidRegistryDeployment } from './config/deployments.js'
 
 export {
   DEFAULT_REGISTRY_ADDRESS as REGISTRY,
@@ -33,7 +33,7 @@ export {
   EzrahDIDRegistry,
   MetaSignature,
   deployments,
-  EthrDidRegistryDeployment,
+  EzrahDidRegistryDeployment,
 }
 
 // workaround for esbuild/vite/hermes issues

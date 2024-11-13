@@ -5,12 +5,12 @@ const deployments = cjsModule.deployments
 const REGISTRY = cjsModule.REGISTRY
 const bytes32toString = cjsModule.bytes32toString
 const stringToBytes32 = cjsModule.stringToBytes32
-const EthrDidController = cjsModule.EthrDidController
+const EzrahDidController = cjsModule.EzrahDidController
 const verificationMethodTypes = cjsModule.verificationMethodTypes
 const identifierMatcher = cjsModule.identifierMatcher
 const interpretIdentifier = cjsModule.interpretIdentifier
 const Errors = cjsModule.Errors
-const EthereumDIDRegistry = cjsModule.EthereumDIDRegistry
+const EzrahDIDRegistry = cjsModule.EzrahDIDRegistry
 
 export {
   getResolver,
@@ -18,11 +18,11 @@ export {
   REGISTRY,
   bytes32toString,
   stringToBytes32,
-  EthrDidController,
+  EzrahDidController,
   verificationMethodTypes,
   identifierMatcher,
   interpretIdentifier,
   Errors,
-  EthereumDIDRegistry,
-  cjsModule as default
+  EzrahDIDRegistry,
+  cjsModule as default,
 }

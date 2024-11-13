@@ -1,5 +1,5 @@
 import { Contract, ContractFactory, getBytes, SigningKey } from 'ethers'
-import { EthrDidController } from '../controller'
+import { EzrahDidController } from '../controller'
 import { default as LegacyEthereumDIDRegistry } from './EthereumDIDRegistry-Legacy/LegacyEthereumDIDRegistry.json'
 import { deployRegistry, randomAccount } from './testUtils'
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
@@ -11,7 +11,7 @@ describe('nonce tracking', () => {
   let legacyRegistryContract: Contract, registryContract: Contract, provider: GanacheProvider
 
   beforeAll(async () => {
-    let reg = await deployRegistry()
+    const reg = await deployRegistry()
     provider = reg.provider
     registryContract = reg.registryContract
 
@@ -28,7 +28,7 @@ describe('nonce tracking', () => {
 
       const identifier = `did:ethr:dev:${originalOwner}`
 
-      const ethrController = new EthrDidController(
+      const ethrController = new EzrahDidController(
         identifier,
         registryContract,
         await provider.getSigner(0),
@@ -72,7 +72,7 @@ describe('nonce tracking', () => {
       const attributeValue = JSON.stringify(serviceEndpointParams)
       const attributeExpiration = 86400
 
-      const ethrController = new EthrDidController(
+      const ethrController = new EzrahDidController(
         identifier,
         registryContract,
         await provider.getSigner(0),
@@ -115,10 +115,10 @@ describe('nonce tracking', () => {
 
       const identifier = `did:ethr:legacy:${originalOwner}`
 
-      const hash = await new EthrDidController(identifier, legacyRegistryContract).createChangeOwnerHash(nextOwner)
+      const hash = await new EzrahDidController(identifier, legacyRegistryContract).createChangeOwnerHash(nextOwner)
       const signature = originalOwnerKey.sign(hash)
 
-      await new EthrDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
+      await new EzrahDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
         nextOwner,
         {
           sigV: signature.v,
@@ -127,10 +127,10 @@ describe('nonce tracking', () => {
         }
       )
 
-      const hash2 = await new EthrDidController(identifier, legacyRegistryContract).createChangeOwnerHash(finalOwner)
+      const hash2 = await new EzrahDidController(identifier, legacyRegistryContract).createChangeOwnerHash(finalOwner)
       const signature2 = nextOwnerKey.sign(hash2)
 
-      await new EthrDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
+      await new EzrahDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
         finalOwner,
         {
           sigV: signature2.v,
@@ -158,10 +158,10 @@ describe('nonce tracking', () => {
 
       const identifier = `did:ethr:legacy:${originalOwner}`
 
-      const hash = await new EthrDidController(identifier, legacyRegistryContract).createChangeOwnerHash(nextOwner)
+      const hash = await new EzrahDidController(identifier, legacyRegistryContract).createChangeOwnerHash(nextOwner)
       const signature = originalOwnerKey.sign(hash)
 
-      await new EthrDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
+      await new EzrahDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).changeOwnerSigned(
         nextOwner,
         {
           sigV: signature.v,
@@ -170,14 +170,14 @@ describe('nonce tracking', () => {
         }
       )
 
-      const hash2 = await new EthrDidController(identifier, legacyRegistryContract).createSetAttributeHash(
+      const hash2 = await new EzrahDidController(identifier, legacyRegistryContract).createSetAttributeHash(
         attributeName,
         attributeValue,
         attributeExpiration
       )
       const signature2 = nextOwnerKey.sign(hash2)
 
-      await new EthrDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).setAttributeSigned(
+      await new EzrahDidController(identifier, legacyRegistryContract, await provider.getSigner(0)).setAttributeSigned(
         attributeName,
         attributeValue,
         attributeExpiration,

@@ -10,12 +10,12 @@ describe('error handling', () => {
 
   it('rejects invalid DID', async () => {
     expect.assertions(1)
-    await expect(didResolver.resolve('did:ethr:2nQtiQG6Cgm1GYTBaaKAgr76uY7iSexUkqX')).resolves.toEqual({
+    await expect(didResolver.resolve('did:ezrah:2nQtiQG6Cgm1GYTBaaKAgr76uY7iSexUkqX')).resolves.toEqual({
       didDocument: null,
       didDocumentMetadata: {},
       didResolutionMetadata: {
         error: 'invalidDid',
-        message: 'Not a valid did:ethr: 2nQtiQG6Cgm1GYTBaaKAgr76uY7iSexUkqX',
+        message: 'Not a valid did:ezrah: 2nQtiQG6Cgm1GYTBaaKAgr76uY7iSexUkqX',
       },
     })
   })
@@ -23,7 +23,7 @@ describe('error handling', () => {
   it('rejects resolution on unconfigured network', async () => {
     expect.assertions(1)
     await expect(
-      didResolver.resolve('did:ethr:zrx:0x03fdd57adec3d438ea237fe46b33ee1e016eda6b585c3e27ea66686c2ea5358479')
+      didResolver.resolve('did:ezrah:zrx:0x03fdd57adec3d438ea237fe46b33ee1e016eda6b585c3e27ea66686c2ea5358479')
     ).resolves.toEqual({
       didDocument: null,
       didDocumentMetadata: {},
@@ -38,7 +38,7 @@ describe('error handling', () => {
     expect.assertions(1)
     const accept = 'application/did+cbor'
     await expect(
-      didResolver.resolve('did:ethr:example:0x03fdd57adec3d438ea237fe46b33ee1e016eda6b585c3e27ea66686c2ea5358479', {
+      didResolver.resolve('did:ezrah:example:0x03fdd57adec3d438ea237fe46b33ee1e016eda6b585c3e27ea66686c2ea5358479', {
         accept,
       })
     ).resolves.toEqual({

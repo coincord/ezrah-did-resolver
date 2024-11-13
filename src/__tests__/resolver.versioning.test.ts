@@ -1,6 +1,6 @@
 import { Contract } from 'ethers'
 import { Resolvable } from 'did-resolver'
-import { EthrDidController } from '../controller'
+import { EzrahDidController } from '../controller'
 import { nullAddress } from '../helpers'
 import { deployRegistry, randomAccount, sleep } from './testUtils'
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
@@ -46,7 +46,7 @@ describe('versioning', () => {
   it('can resolve did with versionId before deactivation', async () => {
     expect.assertions(1)
     const { address, shortDID: deactivatedDid, signer } = await randomAccount(provider)
-    await new EthrDidController(deactivatedDid, registryContract, signer).changeOwner(nullAddress)
+    await new EzrahDidController(deactivatedDid, registryContract, signer).changeOwner(nullAddress)
     const { didDocumentMetadata } = await didResolver.resolve(deactivatedDid)
     const deactivationBlock = parseInt(didDocumentMetadata.versionId ?? '')
     const result = await didResolver.resolve(`${deactivatedDid}?versionId=${deactivationBlock - 1}`)
@@ -78,7 +78,7 @@ describe('versioning', () => {
     const { shortDID: identifier, signer } = await randomAccount(provider)
     const { address: newOwner } = await randomAccount(provider)
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    await new EthrDidController(identifier, registryContract, signer).changeOwner(newOwner)
+    await new EzrahDidController(identifier, registryContract, signer).changeOwner(newOwner)
     const result = await didResolver.resolve(`${identifier}?versionId=latest`)
     expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
     expect(result).toEqual({
@@ -107,7 +107,7 @@ describe('versioning', () => {
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
     await ethrDid.setAttribute('did/pub/Ed25519/veriKey/hex', `0x11111111`, 86411)
     await ethrDid.setAttribute('did/pub/Ed25519/veriKey/hex', `0x22222222`, 86412)
 
@@ -149,7 +149,7 @@ describe('versioning', () => {
     const delegateAddress2 = '0x2222222200000000000000000000000000000002'
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
 
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
     await ethrDid.addDelegate('veriKey', delegateAddress1, 86401)
     await ethrDid.addDelegate('veriKey', delegateAddress2, 86402)
@@ -192,8 +192,8 @@ describe('versioning', () => {
     const { address: newOwner, signer: newSigner } = await randomAccount(provider)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    await new EthrDidController(identifier, registryContract, signer).changeOwner(newOwner)
-    await new EthrDidController(identifier, registryContract, newSigner).changeOwner(originalOwner)
+    await new EzrahDidController(identifier, registryContract, signer).changeOwner(newOwner)
+    await new EzrahDidController(identifier, registryContract, newSigner).changeOwner(originalOwner)
     const result = await didResolver.resolve(`${identifier}?versionId=${blockHeightBeforeChange + 1}`)
     expect(result).toEqual({
       didDocumentMetadata: {
@@ -225,7 +225,7 @@ describe('versioning', () => {
     const delegate = '0xde1E9a7e00000000000000000000000000000001'
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
     const validitySeconds = 2
-    await new EthrDidController(identifier, registryContract, signer).addDelegate('sigAuth', delegate, validitySeconds)
+    await new EzrahDidController(identifier, registryContract, signer).addDelegate('sigAuth', delegate, validitySeconds)
     let result = await didResolver.resolve(identifier)
     // confirm delegate exists
     const versionBeforeExpiry = result.didDocumentMetadata.versionId
