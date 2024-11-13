@@ -29,10 +29,10 @@ import {
 import { logDecoder } from './logParser.js'
 
 export function getResolver(options: ConfigurationOptions): Record<string, DIDResolver> {
-  return new EthrDidResolver(options).build()
+  return new EzrahDidResolver(options).build()
 }
 
-export class EthrDidResolver {
+export class EzrahDidResolver {
   private contracts: ConfiguredNetworks
 
   constructor(options: ConfigurationOptions) {
@@ -348,14 +348,14 @@ export class EthrDidResolver {
       return {
         didResolutionMetadata: {
           error: Errors.invalidDid,
-          message: `Not a valid did:ethr: ${parsed.id}`,
+          message: `Not a valid did:ezrah: ${parsed.id}`,
         },
         didDocumentMetadata: {},
         didDocument: null,
       }
     }
     const id = fullId[2]
-    const networkId = !fullId[1] ? 'mainnet' : fullId[1].slice(0, -1)
+    const networkId = !fullId[1] ? 'dev' : fullId[1].slice(0, -1)
     let blockTag: string | number = options.blockTag || 'latest'
     if (typeof parsed.query === 'string') {
       const qParams = new URLSearchParams(parsed.query)
@@ -439,6 +439,6 @@ export class EthrDidResolver {
   }
 
   build(): Record<string, DIDResolver> {
-    return { ethr: this.resolve.bind(this) }
+    return { ezrah: this.resolve.bind(this) }
   }
 }

@@ -1,5 +1,5 @@
 import { getResolver } from './resolver.js'
-import { EthrDidController } from './controller.js'
+import { EzrahDidController } from './controller.js'
 import {
   bytes32toString,
   DEFAULT_REGISTRY_ADDRESS,
@@ -13,15 +13,15 @@ import {
   MetaSignature,
 } from './helpers.js'
 
-import { EthereumDIDRegistry } from './config/EthereumDIDRegistry.js'
-import { deployments, EthrDidRegistryDeployment } from './config/deployments.js'
+import { EzrahDIDRegistry } from './config/EzrahDIDRegistry.js'
+import { deployments, EzrahDidRegistryDeployment } from './config/deployments.js'
 
 export {
   DEFAULT_REGISTRY_ADDRESS as REGISTRY,
   getResolver,
   bytes32toString,
   stringToBytes32,
-  EthrDidController,
+  EzrahDidController,
   /**@deprecated */
   legacyAlgoMap as delegateTypes,
   /**@deprecated */
@@ -30,10 +30,10 @@ export {
   identifierMatcher,
   interpretIdentifier,
   Errors,
-  EthereumDIDRegistry,
+  EzrahDIDRegistry,
   MetaSignature,
   deployments,
-  EthrDidRegistryDeployment,
+  EzrahDidRegistryDeployment,
 }
 
 // workaround for esbuild/vite/hermes issues
@@ -46,11 +46,11 @@ export default {
   getResolver,
   bytes32toString,
   stringToBytes32,
-  EthrDidController,
+  EzrahDidController,
   verificationMethodTypes,
   identifierMatcher,
   interpretIdentifier,
   Errors,
-  EthereumDIDRegistry,
+  EzrahDIDRegistry,
   deployments,
 }

@@ -1,6 +1,6 @@
 import { Contract } from 'ethers'
 import { Resolvable } from 'did-resolver'
-import { EthrDidController } from '../controller'
+import { EzrahDidController } from '../controller'
 import { interpretIdentifier, nullAddress } from '../helpers'
 import { deployRegistry, randomAccount } from './testUtils'
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
@@ -24,7 +24,7 @@ describe('regression', () => {
     const checksumAddress = interpretIdentifier(address).address
     const lowDid = `did:ethr:dev:${lowAddress}`
     const checksumDid = `did:ethr:dev:${checksumAddress}`
-    await new EthrDidController(lowAddress, registryContract, signer).setAttribute(
+    await new EzrahDidController(lowAddress, registryContract, signer).setAttribute(
       'did/pub/Secp256k1/veriKey/hex',
       '0x02b97c30de767f084ce3080168ee293053ba33b235d7116a3263d29f1450936b71',
       86409
@@ -41,7 +41,7 @@ describe('regression', () => {
     expect.assertions(1)
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
     const authPubKey = `31303866356238393330623164633235386162353765386630646362363932353963363162316166`
-    await new EthrDidController(identifier, registryContract, signer).setAttribute(
+    await new EzrahDidController(identifier, registryContract, signer).setAttribute(
       'did/pub/Ed25519/sigAuth/hex',
       `0x${authPubKey}`,
       86410
@@ -74,7 +74,7 @@ describe('regression', () => {
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
     const publicKeyHex = `b97c30de767f084ce3080168ee293053ba33b235d7116a3263d29f1450936b71`
     const expectedPublicKeyBase58 = 'DV4G2kpBKjE6zxKor7Cj21iL9x9qyXb6emqjszBXcuhz'
-    await new EthrDidController(identifier, registryContract, signer).setAttribute(
+    await new EzrahDidController(identifier, registryContract, signer).setAttribute(
       'did/pub/Ed25519/veriKey/base58',
       `0x${publicKeyHex}`,
       86411
@@ -106,7 +106,7 @@ describe('regression', () => {
     expect.assertions(2)
     const { shortDID: identifier, signer } = await randomAccount(provider)
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    await new EthrDidController(identifier, registryContract, signer).changeOwner(nullAddress)
+    await new EzrahDidController(identifier, registryContract, signer).changeOwner(nullAddress)
     const result = await didResolver.resolve(identifier)
     expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
     expect(result).toEqual({

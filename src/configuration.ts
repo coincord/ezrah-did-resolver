@@ -1,7 +1,7 @@
 import { Contract, ContractFactory, JsonRpcProvider, Provider } from 'ethers'
 import { DEFAULT_REGISTRY_ADDRESS } from './helpers.js'
-import { deployments, EthrDidRegistryDeployment } from './config/deployments.js'
-import { EthereumDIDRegistry } from './config/EthereumDIDRegistry.js'
+import { deployments, EzrahDidRegistryDeployment } from './config/deployments.js'
+import { EzrahDIDRegistry } from './config/EzrahDIDRegistry.js'
 
 const infuraNames: Record<string, string> = {
   polygon: 'matic',
@@ -22,7 +22,7 @@ const knownInfuraNames = ['mainnet', 'aurora', 'linea:goerli', 'sepolia']
  * { name: 'rsk:testnet', chainId: '0x1f', rpcUrl: 'https://public-node.testnet.rsk.co' }
  * ```
  */
-export interface ProviderConfiguration extends Omit<EthrDidRegistryDeployment, 'chainId'> {
+export interface ProviderConfiguration extends Omit<EzrahDidRegistryDeployment, 'chainId'> {
   provider?: Provider | null
   chainId?: string | number | bigint
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,6 +62,8 @@ function configureNetworksWithInfura(projectId?: string): ConfiguredNetworks {
 
 export function getContractForNetwork(conf: ProviderConfiguration): Contract {
   let provider: Provider = conf.provider || conf.web3?.currentProvider
+  // if there's no provider it would use the deployments listings to find a way to create the contract.
+  // by an associated provider
   if (!provider) {
     if (conf.rpcUrl) {
       const chainIdRaw = conf.chainId ? conf.chainId : deployments.find((d) => d.name === conf.name)?.chainId
@@ -71,7 +73,8 @@ export function getContractForNetwork(conf: ProviderConfiguration): Contract {
       throw new Error(`invalid_config: No web3 provider could be determined for network ${conf.name || conf.chainId}`)
     }
   }
-  const contract = ContractFactory.fromSolidity(EthereumDIDRegistry)
+
+  const contract = ContractFactory.fromSolidity(EzrahDIDRegistry)
     .attach(conf.registry || DEFAULT_REGISTRY_ADDRESS)
     .connect(provider)
   return contract as Contract

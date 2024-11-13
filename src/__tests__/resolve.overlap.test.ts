@@ -2,7 +2,7 @@ import { Contract } from 'ethers'
 import { Resolvable } from 'did-resolver'
 
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
-import { EthrDidController } from '../controller'
+import { EzrahDidController } from '../controller'
 import { deployRegistry, randomAccount, sleep, startMining, stopMining } from './testUtils'
 import { stringToBytes32 } from '../helpers'
 
@@ -23,7 +23,7 @@ describe('overlapping events', () => {
 
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
 
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
     await stopMining(provider)
     const tx1 = ethrDid.setAttribute(stringToBytes32('did/svc/TestService'), 'https://test.uport.me', 86406, {
@@ -63,7 +63,7 @@ describe('overlapping events', () => {
     expect.assertions(3)
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
 
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
 
@@ -99,7 +99,7 @@ describe('overlapping events', () => {
     expect.assertions(2)
     const { address, shortDID: identifier, signer } = await randomAccount(provider)
 
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
 
@@ -131,7 +131,7 @@ describe('overlapping events', () => {
     expect.assertions(2)
     const { shortDID: identifier, signer } = await randomAccount(provider)
 
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
 
@@ -158,7 +158,7 @@ describe('overlapping events', () => {
   it('removing a service and then adding it back in the next block should keep the service visible in the resolved doc (correct order 2 blocks, corner case)', async () => {
     expect.assertions(2)
     const { shortDID: identifier, signer } = await randomAccount(provider)
-    const ethrDid = new EthrDidController(identifier, registryContract, signer)
+    const ethrDid = new EzrahDidController(identifier, registryContract, signer)
 
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
 

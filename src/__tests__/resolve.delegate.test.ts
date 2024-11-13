@@ -2,7 +2,7 @@ import { Contract } from 'ethers'
 import { Resolvable } from 'did-resolver'
 
 import { GanacheProvider } from '@ethers-ext/provider-ganache'
-import { EthrDidController } from '../controller'
+import { EzrahDidController } from '../controller'
 import { deployRegistry, randomAccount, sleep } from './testUtils'
 
 jest.setTimeout(30000)
@@ -23,7 +23,7 @@ describe('delegates', () => {
     const { address: identity, shortDID: did, signer } = await randomAccount(provider)
     const { address: signingDelegate } = await randomAccount(provider)
 
-    await new EthrDidController(identity, registryContract, signer).addDelegate('veriKey', signingDelegate, 86401)
+    await new EzrahDidController(identity, registryContract, signer).addDelegate('veriKey', signingDelegate, 86401)
     const result = await didResolver.resolve(did)
     expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
     expect(result).toEqual({
@@ -57,7 +57,7 @@ describe('delegates', () => {
     const { address: identity, shortDID: did, signer } = await randomAccount(provider)
     const { address: authDelegate } = await randomAccount(provider)
     const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    await new EthrDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 2)
+    await new EzrahDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 2)
     const result = await didResolver.resolve(did)
     expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
     expect(result).toEqual({
@@ -91,7 +91,7 @@ describe('delegates', () => {
     const { address: identity, shortDID: did, signer } = await randomAccount(provider)
     const { address: expiringDelegate } = await randomAccount(provider)
     const validitySeconds = 2
-    await new EthrDidController(identity, registryContract, signer).addDelegate(
+    await new EzrahDidController(identity, registryContract, signer).addDelegate(
       'veriKey',
       expiringDelegate,
       validitySeconds
@@ -139,7 +139,7 @@ describe('delegates', () => {
     expect.assertions(2)
     const { address: identity, shortDID: did, signer } = await randomAccount(provider)
     const { address: signingDelegate } = await randomAccount(provider)
-    await new EthrDidController(identity, registryContract, signer).addDelegate('veriKey', signingDelegate, 86400)
+    await new EzrahDidController(identity, registryContract, signer).addDelegate('veriKey', signingDelegate, 86400)
     const resultBefore = await didResolver.resolve(did)
     expect(resultBefore.didDocument).toEqual({
       '@context': expect.anything(),
@@ -161,7 +161,7 @@ describe('delegates', () => {
       authentication: [`${did}#controller`],
       assertionMethod: [`${did}#controller`, `${did}#delegate-1`],
     })
-    await new EthrDidController(identity, registryContract, signer).revokeDelegate('veriKey', signingDelegate)
+    await new EzrahDidController(identity, registryContract, signer).revokeDelegate('veriKey', signingDelegate)
     await sleep(1000)
     const result = await didResolver.resolve(did)
     expect(result.didDocument).toEqual({
@@ -184,9 +184,9 @@ describe('delegates', () => {
     expect.assertions(1)
     const { address: identity, shortDID: did, signer } = await randomAccount(provider)
     const { address: authDelegate } = await randomAccount(provider)
-    await new EthrDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 300)
-    await new EthrDidController(identity, registryContract, signer).revokeDelegate('sigAuth', authDelegate)
-    await new EthrDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 86402)
+    await new EzrahDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 300)
+    await new EzrahDidController(identity, registryContract, signer).revokeDelegate('sigAuth', authDelegate)
+    await new EzrahDidController(identity, registryContract, signer).addDelegate('sigAuth', authDelegate, 86402)
     const result = await didResolver.resolve(did)
     expect(result.didDocument).toEqual({
       '@context': expect.anything(),
