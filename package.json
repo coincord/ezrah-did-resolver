@@ -1,6 +1,6 @@
 {
   "name": "ezrah-did-resolver",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Resolve DID documents for ethereum addresses and public keys",
   "type": "commonjs",
   "source": "./src/index.ts",
