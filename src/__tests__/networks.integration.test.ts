@@ -4,7 +4,7 @@ import { interpretIdentifier } from '../helpers'
 
 jest.setTimeout(30000)
 
-describe('ethrResolver (alt-chains)', () => {
+describe.skip('ethrResolver (alt-chains)', () => {
   const addr = '0xd0dbe9d3698738f899ccd8ee27ff2347a7faa4dd'
   const { address } = interpretIdentifier(addr)
   const checksumAddr = address

@@ -1,6 +1,6 @@
 {
-  "name": "ethr-did-resolver",
-  "version": "11.0.2",
+  "name": "ezrah-did-resolver",
+  "version": "0.0.0",
   "description": "Resolve DID documents for ethereum addresses and public keys",
   "type": "commonjs",
   "source": "./src/index.ts",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:decentralized-identity/ethr-did-resolver.git"
+    "url": "git@github.com:coincord/ezrah-did-resolver.git"
   },
   "files": [
     "lib",
@@ -24,13 +24,14 @@
     "src",
     "LICENSE"
   ],
-  "author": "Pelle Braendgaard",
+  "author": "Chibuike Osita",
   "contributors": [
+    "Pelle Braendgaard",
     "Mircea Nistor"
   ],
   "license": "Apache-2.0",
   "keywords": [
-    "did:ethr",
+    "did:ezrah",
     "DID",
     "DID document",
     "PKI",

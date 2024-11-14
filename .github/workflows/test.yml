@@ -5,13 +5,13 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        version: [ 18 ]
+        version: [18]
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: "Setup node with cache"
+      - name: 'Setup node with cache'
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.version }}
@@ -22,8 +22,8 @@ jobs:
       - run: yarn run lint
       - run: yarn run test:ci
 
-      - name: "Upload coverage reports"
-        uses: codecov/codecov-action@v4
-        with:
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: "Upload coverage reports"
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     fail_ci_if_error: true
+      #     token: ${{ secrets.CODECOV_TOKEN }}
