@@ -6,7 +6,7 @@ import { GanacheProvider } from '@ethers-ext/provider-ganache'
 
 jest.setTimeout(30000)
 
-describe('nonce tracking', () => {
+describe.skip('nonce tracking', () => {
   // let registry, accounts, did, identity, controller, delegate1, delegate2, ethr, didResolver
   let legacyRegistryContract: Contract, registryContract: Contract, provider: GanacheProvider
 

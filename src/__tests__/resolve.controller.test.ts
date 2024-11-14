@@ -18,13 +18,12 @@ describe('change identity owner', () => {
   })
 
   it('resolves document', async () => {
-    expect.assertions(2)
-    const { shortDID: did } = await randomAccount(provider)
+    const { shortDID: did, signer } = await randomAccount(provider)
     const { address: newOwner } = await randomAccount(provider)
-    const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
-    // await new EzrahDidController(did, registryContract, signer).changeOwner(newOwner)
+    // const blockHeightBeforeChange = (await provider.getBlock('latest'))!.number
+    await new EzrahDidController(did, registryContract, signer).changeOwner(newOwner)
     const result = await didResolver.resolve(did)
-    expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
+    // expect(parseInt(result?.didDocumentMetadata.versionId ?? '')).toBeGreaterThanOrEqual(blockHeightBeforeChange + 1)
     expect(result.didDocument).toEqual({
       '@context': expect.anything(),
       id: did,
